@@ -3,242 +3,310 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Моё Цифровое Пространство</title>
+    <title>GitHub Style Interactive Portfolio</title>
     <style>
         :root {
-            --bg-color: #0a0a0c;
-            --card-bg: #121216;
-            --accent-glow: #00f2fe;
-            --accent-neon: #4facfe;
-            --text-main: #ffffff;
-            --text-muted: #8f9cae;
+            --bg-color: #0d1117;
+            --panel-bg: #161b22;
+            --border-color: #30363d;
+            --text-main: #c9d1d9;
+            --text-muted: #8b949e;
+            --accent-color: #58a6ff;
+            --success-color: #238636;
+            --success-hover: #2ea043;
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
         }
 
         body {
             background-color: var(--bg-color);
             color: var(--text-main);
+            display: flex;
+            flex-direction: column;
             min-height: 100vh;
+        }
+
+        header {
+            background-color: var(--panel-bg);
+            border-bottom: 1px solid var(--border-color);
+            padding: 16px 32px;
             display: flex;
-            justify-content: center;
             align-items: center;
-            padding: 20px;
-            overflow-x: hidden;
-            position: relative;
+            justify-content: space-between;
         }
 
-        /* Задний фон с эффектом свечения */
-        body::before {
-            content: '';
-            position: absolute;
-            width: 300px;
-            height: 300px;
-            background: linear-gradient(45deg, var(--accent-neon), var(--accent-glow));
-            border-radius: 50%;
-            filter: blur(120px);
-            opacity: 0.2;
-            top: 10%;
-            left: 10%;
-            z-index: 0;
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 600;
+            font-size: 18px;
         }
 
-        /* Анимация плавного проявления карточки снизу вверх */
-        .card {
-            background: var(--card-bg);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 24px;
-            padding: 40px 30px;
-            max-width: 400px;
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+
+        .nav-btn {
+            background: transparent;
+            border: 1px solid transparent;
+            color: var(--text-main);
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+
+        .nav-btn:hover {
+            background-color: rgba(240, 246, 252, 0.1);
+        }
+
+        .nav-btn.active {
+            background-color: rgba(88, 166, 255, 0.15);
+            border-color: var(--accent-color);
+            color: var(--accent-color);
+        }
+
+        main {
+            flex: 1;
+            max-width: 1100px;
             width: 100%;
+            margin: 0 auto;
+            padding: 40px 24px;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero {
             text-align: center;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(10px);
-            z-index: 1;
-            transform: translateY(0);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            
-            animation: cardAppear 1s ease-out forwards;
-            opacity: 0;
+            padding: 40px 20px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 30px;
         }
 
-        @keyframes cardAppear {
-            from { transform: translateY(40px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-
-        .card:hover {
-            transform: translateY(-8px);
-            border-color: rgba(0, 242, 254, 0.3);
-            box-shadow: 0 30px 60px rgba(0, 242, 254, 0.1);
-        }
-
-        .avatar-container {
-            position: relative;
-            width: 110px;
-            height: 110px;
-            margin: 0 auto 24px;
-            animation: fadeIn 0.8s ease-out 0.3s forwards;
-            opacity: 0;
-        }
-
-        .avatar {
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, #1e1e24, #2a2a35);
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 40px;
-            border: 2px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .pulse-ring {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            border: 2px solid var(--accent-glow);
-            border-radius: 50%;
-            animation: pulse 2s infinite;
-            opacity: 0;
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(0.95); opacity: 0.8; }
-            100% { transform: scale(1.3); opacity: 0; }
-        }
-
-        /* Анимация переливающегося текста заголовка */
-        h1 {
-            font-size: 28px;
-            font-weight: 800;
-            margin-bottom: 8px;
-            background: linear-gradient(270deg, #ffffff, var(--accent-glow), var(--accent-neon), #ffffff);
-            background-size: 600% 600%;
+        .hero h1 {
+            font-size: 42px;
+            margin-bottom: 16px;
+            background: linear-gradient(45deg, #58a6ff, #bc8cff, #ff79c6);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            animation: textGradient 6s ease infinite, fadeIn 0.8s ease-out 0.5s forwards;
-            opacity: 0;
+            background-size: 200% auto;
+            animation: gradientText 4s linear infinite;
         }
 
-        @keyframes textGradient {
+        @keyframes gradientText {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
         }
 
-        /* Анимация текста (наплыв слева) */
-        .tag {
-            display: inline-block;
-            font-size: 12px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            padding: 4px 12px;
-            background: rgba(0, 242, 254, 0.1);
-            color: var(--accent-glow);
-            border-radius: 12px;
-            margin-bottom: 20px;
-            
-            animation: slideInLeft 0.8s cubic-bezier(0.19, 1, 0.22, 1) 0.6s forwards;
-            opacity: 0;
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 16px;
+            margin-top: 20px;
         }
 
-        /* Анимация текста (наплыв справа) */
-        .bio {
+        .card {
+            background-color: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 20px;
+            cursor: pointer;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-3px);
+            border-color: var(--accent-color);
+        }
+
+        .card h3 {
+            color: var(--accent-color);
+            margin-bottom: 8px;
+        }
+
+        .card p {
             color: var(--text-muted);
-            font-size: 15px;
-            line-height: 1.6;
-            margin-bottom: 30px;
-            
-            animation: slideInRight 0.8s cubic-bezier(0.19, 1, 0.22, 1) 0.7s forwards;
-            opacity: 0;
+            font-size: 14px;
         }
 
-        @keyframes slideInLeft {
-            from { transform: translateX(-30px); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
+        .game-box {
+            background-color: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 30px;
+            text-align: center;
+            max-width: 450px;
+            margin: 20px auto;
         }
 
-        @keyframes slideInRight {
-            from { transform: translateX(30px); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
+        .click-btn {
+            background: linear-gradient(135deg, #238636, #2ea043);
+            color: white;
+            border: none;
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 20px 0;
+            box-shadow: 0 0 15px rgba(46, 160, 67, 0.3);
         }
 
-        @keyframes fadeIn {
-            to { opacity: 1; }
+        .click-btn:active {
+            transform: scale(0.96);
         }
 
-        .links-container {
+        .shop {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
             display: flex;
-            flex-direction: column;
-            gap: 12px;
-            animation: fadeIn 0.8s ease-out 0.9s forwards;
-            opacity: 0;
+            justify-content: space-between;
+            align-items: center;
         }
 
         .btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 14px;
-            border-radius: 14px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 15px;
-            transition: all 0.2s ease;
+            background-color: var(--success-color);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
         }
 
-        .btn-primary {
-            background: linear-gradient(45deg, var(--accent-neon), var(--accent-glow));
-            color: #000;
-            box-shadow: 0 4px 15px rgba(0, 242, 254, 0.2);
-        }
+        .btn:hover { background-color: var(--success-hover); }
 
-        .btn-primary:hover {
-            opacity: 0.9;
-            box-shadow: 0 6px 20px rgba(0, 242, 254, 0.4);
-            transform: scale(1.02);
-        }
-
-        .btn-secondary {
-            background: rgba(255, 255, 255, 0.03);
-            color: var(--text-main);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-        }
-
-        .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.08);
-            border-color: rgba(255, 255, 255, 0.2);
-            transform: scale(1.02);
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: var(--text-muted);
+            font-size: 12px;
+            border-top: 1px solid var(--border-color);
         }
     </style>
 </head>
 <body>
 
-    <div class="card">
-        <div class="avatar-container">
-            <div class="pulse-ring"></div>
-            <div class="avatar">⚡</div>
+    <header>
+        <div class="logo-area">
+            <span style="color: var(--accent-color)">◆</span> GitHub WebApp
         </div>
-        
-        <h1>Твой Никнейм</h1>
-        <div class="tag">Frontend Developer</div>
-        
-        <p class="bio">
-           приветствую всех на мокм первом  сайте. Проект собран с телефона и развернут на gitHub pages. ээ ткт веб технологи и стильный интерактив.
-        </p>
+        <nav>
+            <button class="nav-btn active" onclick="switchTab('main-tab')">Главная</button>
+            <button class="nav-btn" onclick="switchTab('projects-tab')">Проекты</button>
+            <button class="nav-btn" onclick="switchTab('game-tab')">Мини-Игра</button>
+        </nav>
+    </header>
 
-        <div class="links-container">
-            <a href="https://t.me" target="_blank" class="btn btn-primary">🥺 Мой мессенджер Мах</a>
-            <a href="#" class="btn btn-secondary">📁 Мои проекты</a>
-        </div>
-    </div>
+    <main>
+        <!-- Главная -->
+        <section id="main-tab" class="tab-content active">
+            <div class="hero">
+                <h1>Добро пожаловать</h1>
+                <p style="color: var(--text-muted)">Рабочие вкладки, анимации и никакого статичного текста.</p>
+            </div>
+            <h2>Интерактивные элементы</h2>
+            <div class="grid">
+                <div class="card" onclick="switchTab('projects-tab')">
+                    <h3>📁 Вкладка Проектов</h3>
+                    <p>Кликни сюда, и скрипт сразу переключит тебя на страницу репозиториев.</p>
+                </div>
+                <div class="card" onclick="switchTab('game-tab')">
+                    <h3>🎮 Настоящий кликер</h3>
+                    <p>Внутри встроена игра. Можно кликать, копить очки и покупать улучшения.</p>
+                </div>
+            </div>
+        </section>
 
+        <!-- Проекты -->
+        <section id="projects-tab" class="tab-content">
+            <h2>Мои проекты</h2>
+            <div class="grid">
+                <div class="card"><h3>⚡ ai-assistant-core</h3><p>Модуль искусственного интеллекта.</p></div>
+                <div class="card"><h3>🎨 web-portfolio-template</h3><p>Интерактивный шаблон портфолио.</p></div>
+            </div>
+        </section>
+
+        <!-- Игра -->
+        <section id="game-tab" class="tab-content">
+            <h2>Git-Clicker</h2>
+            <div class="game-box">
+                <div style="font-size: 20px; margin-bottom: 10px;">Коммиты: <span id="score">0</span></div>
+                <button class="click-btn" onclick="makeCommit()">COMMIT</button>
+                <div class="shop">
+                    <div style="text-align: left;">
+                        <div>Авто-кликер</div>
+                        <div style="font-size: 12px; color: var(--text-muted);" id="upgrade-cost">Цена: 15</div>
+                    </div>
+                    <button class="btn" onclick="buyUpgrade()">Купить</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2026 Интерактивное веб-приложение.</p>
+    </footer>
+
+    <script>
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            
+            const buttons = document.querySelectorAll('.nav-btn');
+            if(tabId === 'main-tab') buttons[0].classList.add('active');
+            if(tabId === 'projects-tab') buttons[1].classList.add('active');
+            if(tabId === 'game-tab') buttons[2].classList.add('active');
+        }
+
+        let score = 0;
+        let autoClickers = 0;
+        let upgradeCost = 15;
+
+        function makeCommit() {
+            score++;
+            document.getElementById('score').innerText = score;
+        }
+
+        function buyUpgrade() {
+            if (score >= upgradeCost) {
+                score -= upgradeCost;
+                autoClickers++;
+                upgradeCost = Math.floor(upgradeCost * 1.5);
+                document.getElementById('score').innerText = score;
+                document.getElementById('upgrade-cost').innerText = 'Цена: ' + upgradeCost;
+            }
+        }
+
+        setInterval(() => {
+            if (autoClickers > 0) {
+                score += autoClickers;
+                document.getElementById('score').innerText = score;
+            }
+        }, 1000);
+    </script>
 </body>
 </html>
