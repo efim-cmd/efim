@@ -3,158 +3,242 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Мой персональный сайт</title>
+    <title>Моё Цифровое Пространство</title>
     <style>
-        /* Базовые стили и темная футуристичная тема */
+        :root {
+            --bg-color: #0a0a0c;
+            --card-bg: #121216;
+            --accent-glow: #00f2fe;
+            --accent-neon: #4facfe;
+            --text-main: #ffffff;
+            --text-muted: #8f9cae;
+        }
+
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         }
 
         body {
-            background-color: #0f172a;
-            color: #f8fafc;
-            line-height: 1.6;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             padding: 20px;
+            overflow-x: hidden;
+            position: relative;
         }
 
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
+        /* Задний фон с эффектом свечения */
+        body::before {
+            content: '';
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: linear-gradient(45deg, var(--accent-neon), var(--accent-glow));
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.2;
+            top: 10%;
+            left: 10%;
+            z-index: 0;
         }
 
-        /* Шапка сайта */
-        header {
+        /* Анимация плавного проявления карточки снизу вверх */
+        .card {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 24px;
+            padding: 40px 30px;
+            max-width: 400px;
+            width: 100%;
             text-align: center;
-            padding: 40px 20px;
-            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
-            border-radius: 16px;
-            margin-bottom: 30px;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            z-index: 1;
+            transform: translateY(0);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            
+            animation: cardAppear 1s ease-out forwards;
+            opacity: 0;
         }
 
-        header h1 {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
+        @keyframes cardAppear {
+            from { transform: translateY(40px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(0, 242, 254, 0.3);
+            box-shadow: 0 30px 60px rgba(0, 242, 254, 0.1);
+        }
+
+        .avatar-container {
+            position: relative;
+            width: 110px;
+            height: 110px;
+            margin: 0 auto 24px;
+            animation: fadeIn 0.8s ease-out 0.3s forwards;
+            opacity: 0;
+        }
+
+        .avatar {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #1e1e24, #2a2a35);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 40px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .pulse-ring {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            border: 2px solid var(--accent-glow);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+            opacity: 0;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(0.95); opacity: 0.8; }
+            100% { transform: scale(1.3); opacity: 0; }
+        }
+
+        /* Анимация переливающегося текста заголовка */
+        h1 {
+            font-size: 28px;
             font-weight: 800;
+            margin-bottom: 8px;
+            background: linear-gradient(270deg, #ffffff, var(--accent-glow), var(--accent-neon), #ffffff);
+            background-size: 600% 600%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: textGradient 6s ease infinite, fadeIn 0.8s ease-out 0.5s forwards;
+            opacity: 0;
         }
 
-        header p {
-            color: #bfdbfe;
-            font-size: 1.1rem;
+        @keyframes textGradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
-        /* Секции */
-        section {
-            background-color: #1e293b;
-            padding: 24px;
-            border-radius: 16px;
-            margin-bottom: 25px;
-            border: 1px solid #334155;
-        }
-
-        section h2 {
-            color: #3b82f6;
-            margin-bottom: 15px;
-            font-size: 1.5rem;
-            border-bottom: 2px solid #334155;
-            padding-bottom: 8px;
-        }
-
-        /* Список навыков/интересов */
-        .skills-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-            gap: 12px;
-            margin-top: 15px;
-        }
-
-        .skill-item {
-            background-color: #334155;
-            text-align: center;
-            padding: 10px;
-            border-radius: 8px;
-            font-size: 0.9rem;
+        /* Анимация текста (наплыв слева) */
+        .tag {
+            display: inline-block;
+            font-size: 12px;
             font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 4px 12px;
+            background: rgba(0, 242, 254, 0.1);
+            color: var(--accent-glow);
+            border-radius: 12px;
+            margin-bottom: 20px;
+            
+            animation: slideInLeft 0.8s cubic-bezier(0.19, 1, 0.22, 1) 0.6s forwards;
+            opacity: 0;
         }
 
-        /* Кнопки/Контакты */
-        .links {
+        /* Анимация текста (наплыв справа) */
+        .bio {
+            color: var(--text-muted);
+            font-size: 15px;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            
+            animation: slideInRight 0.8s cubic-bezier(0.19, 1, 0.22, 1) 0.7s forwards;
+            opacity: 0;
+        }
+
+        @keyframes slideInLeft {
+            from { transform: translateX(-30px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes slideInRight {
+            from { transform: translateX(30px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        .links-container {
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 12px;
+            animation: fadeIn 0.8s ease-out 0.9s forwards;
+            opacity: 0;
         }
 
         .btn {
-            display: block;
-            text-align: center;
-            background-color: #3b82f6;
-            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px;
+            border-radius: 14px;
             text-decoration: none;
-            padding: 12px;
-            border-radius: 8px;
             font-weight: 600;
-            transition: background 0.2s;
+            font-size: 15px;
+            transition: all 0.2s ease;
         }
 
-        .btn:hover {
-            background-color: #2563eb;
+        .btn-primary {
+            background: linear-gradient(45deg, var(--accent-neon), var(--accent-glow));
+            color: #000;
+            box-shadow: 0 4px 15px rgba(0, 242, 254, 0.2);
         }
 
-        /* Подвал */
-        footer {
-            text-align: center;
-            margin-top: 40px;
-            color: #64748b;
-            font-size: 0.9rem;
+        .btn-primary:hover {
+            opacity: 0.9;
+            box-shadow: 0 6px 20px rgba(0, 242, 254, 0.4);
+            transform: scale(1.02);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.03);
+            color: var(--text-main);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: scale(1.02);
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
+    <div class="card">
+        <div class="avatar-container">
+            <div class="pulse-ring"></div>
+            <div class="avatar">⚡</div>
+        </div>
         
-        <!-- Шапка -->
-        <header>
-            <h1>Привет, я Ефим</h1>
-            <p>Это мой первый полноценный сайт, созданный без казуальных конструкторов</p>
-        </header>
+        <h1>Твой Никнейм</h1>
+        <div class="tag">Frontend Developer</div>
+        
+        <p class="bio">
+           приветствую всех на мокм первом  сайте. Проект собран с телефона и развернут на gitHub pages. ээ ткт веб технологи и стильный интерактив.
+        </p>
 
-        <!-- О себе -->
-        <section>
-            <h2>Обо мне</h2>
-            <p>Добро пожаловать на мою страницу. Я не увлекаюсь технологиями, программированием и веб-разработкой,  поэтому сайт является экспериментом. Этот сайт написан на чистом HTML и CSS и размещен на профессиональной платформе GitHub Pages.</p>
-        </section>
-
-        <!-- Мои интересы / Скиллы -->
-        <section>
-            <h2>Что мне интересно</h2>
-            <div class="skills-grid">
-                <div class="skill-item">HTML5 & CSS3</div>
-                <div class="skill-item">Гейминг</div>
-                <div class="skill-item">Веб-дизайн</div>
-                <div class="skill-item">IT-Технологии</div>
-            </div>
-        </section>
-
-        <!-- Мои проекты или ссылки -->
-        <section>
-            <h2>Связаться со мной</h2>
-            <div class="links">
-                <a href="https://t.me" target="_blank" class="btn">Мой Telegram</a>
-                <a href="https://github.com" target="_blank" class="btn" style="background-color: #475569;">Мой профиль GitHub</a>
-            </div>
-        </section>
-
-        <!-- Подвал -->
-        <footer>
-            <p>© 2026 Разработано вручную на смартфоне.</p>
-        </footer>
-
+        <div class="links-container">
+            <a href="https://t.me" target="_blank" class="btn btn-primary">🥺 Мой мессенджер Мах</a>
+            <a href="#" class="btn btn-secondary">📁 Мои проекты</a>
+        </div>
     </div>
 
 </body>
 </html>
-
