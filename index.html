@@ -3,28 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GitHub Style Interactive Portfolio</title>
+    <title>Premium Arcade Hub & News</title>
     <style>
         :root {
-            --bg-color: #0d1117;
-            --panel-bg: #161b22;
-            --border-color: #30363d;
-            --text-main: #c9d1d9;
-            --text-muted: #8b949e;
-            --accent-color: #58a6ff;
-            --success-color: #238636;
-            --success-hover: #2ea043;
+            --bg-main: #f8fafc;
+            --panel-bg: #ffffff;
+            --border-color: #e2e8f0;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --accent: #4f46e5;
+            --success: #10b981;
+            --danger: #ef4444;
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
         }
 
         body {
-            background-color: var(--bg-color);
+            background-color: var(--bg-main);
             color: var(--text-main);
             display: flex;
             flex-direction: column;
@@ -34,52 +34,115 @@
         header {
             background-color: var(--panel-bg);
             border-bottom: 1px solid var(--border-color);
-            padding: 16px 32px;
+            padding: 20px 40px;
             display: flex;
             align-items: center;
             justify-content: space-between;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
         }
 
-        .logo-area {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-weight: 600;
-            font-size: 18px;
+        .logo {
+            font-size: 22px;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--accent), #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         nav {
             display: flex;
-            gap: 8px;
+            gap: 12px;
         }
 
         .nav-btn {
             background: transparent;
             border: 1px solid transparent;
-            color: var(--text-main);
-            padding: 6px 12px;
-            border-radius: 6px;
+            color: var(--text-muted);
+            padding: 8px 16px;
+            border-radius: 8px;
             cursor: pointer;
-            font-size: 14px;
-            transition: all 0.2s;
+            font-size: 15px;
+            font-weight: 600;
+            transition: all 0.2s ease;
         }
 
         .nav-btn:hover {
-            background-color: rgba(240, 246, 252, 0.1);
+            background-color: #f1f5f9;
+            color: var(--text-main);
         }
 
         .nav-btn.active {
-            background-color: rgba(88, 166, 255, 0.15);
-            border-color: var(--accent-color);
-            color: var(--accent-color);
+            background-color: #eef2ff;
+            color: var(--accent);
+            border-color: rgba(79, 70, 229, 0.2);
         }
 
         main {
             flex: 1;
-            max-width: 1100px;
+            max-width: 1000px;
             width: 100%;
             margin: 0 auto;
-            padding: 40px 24px;
+            padding: 30px 24px;
+        }
+
+        /* Стиль бегущей строки новостей */
+        .news-ticker-container {
+            background: #1e293b;
+            color: #f8fafc;
+            padding: 12px;
+            overflow: hidden;
+            white-space: nowrap;
+            border-radius: 8px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+        }
+
+        .news-ticker {
+            display: inline-block;
+            padding-left: 100%;
+            animation: ticker 25s linear infinite;
+        }
+
+        .news-ticker:hover {
+            animation-play-state: paused;
+            cursor: pointer;
+        }
+
+        .news-item {
+            display: inline-block;
+            margin-right: 50px;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        @keyframes ticker {
+            0% { transform: translate3d(0, 0, 0); }
+            100% { transform: translate3d(-100%, 0, 0); }
+        }
+
+        /* Описание сайта */
+        .info-panel {
+            background: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 30px;
+            font-size: 15px;
+            line-height: 1.6;
+            color: var(--text-main);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+        }
+
+        .github-badge {
+            display: inline-block;
+            background: #f1f5f9;
+            border: 1px solid var(--border-color);
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 700;
+            color: #334155;
+            margin-bottom: 12px;
         }
 
         .tab-content {
@@ -88,225 +151,299 @@
 
         .tab-content.active {
             display: block;
-            animation: fadeIn 0.3s ease-in-out;
+            animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(5px); }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        .hero {
-            text-align: center;
-            padding: 40px 20px;
-            border-bottom: 1px solid var(--border-color);
-            margin-bottom: 30px;
-        }
-
-        .hero h1 {
-            font-size: 42px;
-            margin-bottom: 16px;
-            background: linear-gradient(45deg, #58a6ff, #bc8cff, #ff79c6);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-size: 200% auto;
-            animation: gradientText 4s linear infinite;
-        }
-
-        @keyframes gradientText {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 16px;
-            margin-top: 20px;
-        }
-
-        .card {
+        .game-card {
             background-color: var(--panel-bg);
             border: 1px solid var(--border-color);
-            border-radius: 6px;
-            padding: 20px;
-            cursor: pointer;
-            transition: transform 0.2s, border-color 0.2s;
+            border-radius: 16px;
+            padding: 32px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+            max-width: 600px;
+            margin: 0 auto;
         }
 
-        .card:hover {
-            transform: translateY(-3px);
-            border-color: var(--accent-color);
-        }
-
-        .card h3 {
-            color: var(--accent-color);
-            margin-bottom: 8px;
-        }
-
-        .card p {
-            color: var(--text-muted);
-            font-size: 14px;
-        }
-
-        .game-box {
-            background-color: var(--panel-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
-            padding: 30px;
+        .click-section {
             text-align: center;
-            max-width: 450px;
-            margin: 20px auto;
         }
 
-        .click-btn {
-            background: linear-gradient(135deg, #238636, #2ea043);
+        .score-display {
+            font-size: 36px;
+            font-weight: 800;
+            margin-bottom: 20px;
+        }
+
+        .master-click-btn {
+            background: linear-gradient(135deg, var(--accent), #6366f1);
             color: white;
             border: none;
-            width: 110px;
-            height: 110px;
+            width: 130px;
+            height: 130px;
             border-radius: 50%;
-            font-size: 16px;
-            font-weight: bold;
+            font-size: 20px;
+            font-weight: 700;
             cursor: pointer;
-            margin: 20px 0;
-            box-shadow: 0 0 15px rgba(46, 160, 67, 0.3);
+            box-shadow: 0 10px 25px rgba(79, 70, 229, 0.2);
+            transition: transform 0.1s;
+            margin-bottom: 24px;
         }
 
-        .click-btn:active {
-            transform: scale(0.96);
-        }
+        .master-click-btn:active { transform: scale(0.95); }
 
-        .shop {
-            margin-top: 20px;
-            padding-top: 20px;
+        .upgrades-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-top: 24px;
             border-top: 1px solid var(--border-color);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            padding-top: 24px;
         }
 
-        .btn {
-            background-color: var(--success-color);
+        .upgrade-item {
+            background: #f8fafc;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 16px;
+            text-align: left;
+        }
+
+        .upgrade-btn {
+            background-color: var(--text-main);
             color: white;
             border: none;
-            padding: 8px 16px;
+            padding: 8px 12px;
             border-radius: 6px;
+            font-weight: 600;
             cursor: pointer;
+            margin-top: 10px;
+            width: 100%;
         }
 
-        .btn:hover { background-color: var(--success-hover); }
+        .achievement-box {
+            margin-top: 24px;
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            border-radius: 12px;
+            padding: 16px;
+        }
+
+        .progress-bar-bg {
+            background: #e2e8f0;
+            height: 10px;
+            border-radius: 5px;
+            margin-top: 8px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            background: var(--success);
+            height: 100%;
+            width: 0%;
+            transition: width 0.2s;
+        }
+
+        .canvas-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+        }
+
+        canvas {
+            background-color: #0f172a;
+            border-radius: 8px;
+        }
 
         footer {
             text-align: center;
-            padding: 20px;
+            padding: 24px;
             color: var(--text-muted);
-            font-size: 12px;
+            font-size: 14px;
             border-top: 1px solid var(--border-color);
+            background: var(--panel-bg);
+            margin-top: auto;
         }
     </style>
 </head>
 <body>
 
     <header>
-        <div class="logo-area">
-            <span style="color: var(--accent-color)">◆</span> GitHub WebApp
-        </div>
+        <div class="logo">⚡ Топор Arcade</div>
         <nav>
-            <button class="nav-btn active" onclick="switchTab(this, 'main-tab')">Главная</button>
-            <button class="nav-btn" onclick="switchTab(this, 'projects-tab')">Проекты</button>
-            <button class="nav-btn" onclick="switchTab(this, 'game-tab')">Мини-Игра</button>
+            <button class="nav-btn active" onclick="switchTab(this, 'tab-clicker')">🖱 Кликер</button>
+            <button class="nav-btn" onclick="switchTab(this, 'tab-snake')">🐍 Змейка</button>
+            <button class="nav-btn" onclick="switchTab(this, 'tab-pacman')">🟡 Пакман</button>
         </nav>
     </header>
 
     <main>
-        <!-- Главная -->
-        <section id="main-tab" class="tab-content active">
-            <div class="hero">
-                <h1>Добро пожаловать</h1>
-                <p style="color: var(--text-muted)">Рабочие вкладки, анимации и никакого статичного текста.</p>
+        <!-- БЕГУЩАЯ СТРОКА НОВОСТЕЙ -->
+        <div class="news-ticker-container">
+            <div class="news-ticker">
+                <span class="news-item">⚡ СРОЧНО: Учёные создали ИИ, который умеет идеально играть в ретро-аркады, но отказывается работать по понедельникам.</span>
+                <span class="news-item">⚡ МИР: По всему миру зафиксирован рекордный спрос на механические клавиатуры из-за новой волны кликер-игр.</span>
+                <span class="news-item">⚡ ТЕХНО: GitHub представил скрытую функцию, увеличивающую скорость загрузки сайтов, если разработчик погладит кота.</span>
+                <span class="news-item">⚡ ТРЕНДЫ: Нейросети научились варить кофе, но пока путают сахар солью, пользователи просят вернуть старые технологии.</span>
             </div>
-            <h2>Интерактивные элементы</h2>
-            <div class="grid">
-                <div class="card" onclick="document.querySelector('button[onclick*=\"projects-tab\"]').click()">
-                    <h3>📁 Вкладка Проектов</h3>
-                    <p>Кликни сюда, и скрипт сразу переключит тебя на страницу репозиториев.</p>
-                </div>
-                <div class="card" onclick="document.querySelector('button[onclick*=\"game-tab\"]').click()">
-                    <h3>🎮 Настоящий кликер</h3>
-                    <p>Внутри встроена игра. Можно кликать, копить очки и покупать улучшения.</p>
-                </div>
-            </div>
-        </section>
+        </div>
 
-        <!-- Проекты -->
-        <section id="projects-tab" class="tab-content">
-            <h2>Мои проекты</h2>
-            <div class="grid">
-                <div class="card"><h3>⚡ ai-assistant-core</h3><p>Модуль искусственного интеллекта.</p></div>
-                <div class="card"><h3>🎨 web-portfolio-template</h3><p>Интерактивный шаблон портфолио.</p></div>
-            </div>
-        </section>
+        <!-- ИНФОРМАЦИОННЫЙ БЛОК -->
+        <div class="info-panel">
+            <div class="github-badge">Создано с помощью GitHub</div>
+            <p>
+                Эта страница спроектирована как полноценное интерактивное мини-приложение, где абсолютно весь программный код, стили оформления и логика работы упакованы в один компактный текстовый файл для моментального запуска в любом браузере. Внешний вид создан с применением современных светлых оттенков, плавных анимаций переходов и объемных теней, а внутренние алгоритмы на JavaScript управляют динамической лентой новостей, отслеживают нажатия клавиш клавиатуры для управления персонажами и рассчитывают скорость автоматической генерации очков в режиме реального времени. Весь этот проект полностью готов к размещению на серверах бесплатной платформы хостинга веб-страниц, что позволяет мгновенно превратить обычные строки исходного кода в работающий игровой портал, доступный любому пользователю интернета по прямой ссылке.
+            </p>
+        </div>
 
-        <!-- Игра -->
-        <section id="game-tab" class="tab-content">
-            <h2>Git-Clicker</h2>
-            <div class="game-box">
-                <div style="font-size: 20px; margin-bottom: 10px;">Коммиты: <span id="score">0</span></div>
-                <button class="click-btn" onclick="makeCommit()">COMMIT</button>
-                <div class="shop">
-                    <div style="text-align: left;">
-                        <div>Авто-кликер</div>
-                        <div style="font-size: 12px; color: var(--text-muted);" id="upgrade-cost">Цена: 15</div>
-                    </div>
-                    <button class="btn" onclick="buyUpgrade()">Купить</button>
-                </div>
-            </div>
-        </section>
-    </main>
+        <!-- КЛИКЕР -->
+        <section id="tab-clicker" class="tab-content active">
+            <div class="game-card click-section">
+                <div class="score-display"><span id="click-score">0</span> коммитов</div>
+                <button class="master-click-btn" onclick="userClick()">КЛИК!</button>
+                
+                <div class="upgrades-grid">
+                    <div class="upgrade-item">
+Используйте код с осторожностью.
+Количество ботов
+Купить за 15
 
-    <footer>
-        <p>© 2026 Интерактивное веб-приложение.</p>
-    </footer>
 
-    <script>
-        function switchTab(clickedButton, tabId) {
-            // Скрываем все вкладки
-            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-            // Убираем активный класс у всех кнопок
-            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-            
-            // Показываем нужную вкладку и активируем кнопку
-            document.getElementById(tabId).classList.add('active');
-            clickedButton.classList.add('active');
-        }
+Скорость ботов
+Ускорить за 50
 
-        let score = 0;
-        let autoClickers = 0;
-        let upgradeCost = 15;
+🏆 Ачивка (1 000 000 кликов)
+0%
 
-        function makeCommit() {
-            score++;
-            document.getElementById('score').innerText = score;
-        }
 
-        function buyUpgrade() {
-            if (score >= upgradeCost) {
-                score -= upgradeCost;
-                autoClickers++;
-                upgradeCost = Math.floor(upgradeCost * 1.5);
-                document.getElementById('score').innerText = score;
-                document.getElementById('upgrade-cost').innerText = 'Цена: ' + upgradeCost;
-            }
-        }
+Статус: В процессе...
 
-        setInterval(() => {
-            if (autoClickers > 0) {
-                score += autoClickers;
-                document.getElementById('score').innerText = score;
-            }
-        }, 1000);
-    </script>
-</body>
-</html>
+
+Старт
+Счет: 0
+
+
+
+Старт
+Очки: 0
+
+
+
+
+© 2026 Premium Gaming WebApp.
+let activeSnakeInterval = null;
+let activePacmanInterval = null;
+function switchTab(btn, tabId) {
+document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+document.getElementById(tabId).classList.add('active');
+btn.classList.add('active');
+clearInterval(activeSnakeInterval);
+clearInterval(activePacmanInterval);
+}
+/* ЛОГИКА КЛИКЕРА */
+let score = 0; let bots = 0; let botInterval = 1000;
+let botCost = 15; let speedCost = 50; let botTimer = null;
+const targetAch = 1000000;
+function userClick() { score++; updateClickerUI(); }
+function buyBot() {
+if (score >= botCost) {
+score -= botCost; bots++; botCost = Math.floor(botCost * 1.4);
+updateClickerUI(); restartBotTimer();
+}
+}
+function buySpeed() {
+if (score >= speedCost && botInterval > 100) {
+score -= speedCost; botInterval = Math.max(100, botInterval - 150);
+speedCost = Math.floor(speedCost * 2);
+updateClickerUI(); restartBotTimer();
+}
+}
+function restartBotTimer() {
+clearInterval(botTimer);
+if (bots > 0) {
+botTimer = setInterval(() => { score += bots; updateClickerUI(); }, botInterval);
+}
+}
+function updateClickerUI() {
+document.getElementById('click-score').innerText = score;
+document.getElementById('btn-bot-count').innerText = Купить за ${botCost};
+document.getElementById('btn-bot-speed').innerText = botInterval <= 100 ? 'МАКСИМУМ' : Ускорить за ${speedCost};
+let percent = Math.min(100, (score / targetAch) * 100);
+document.getElementById('ach-progress').style.width = percent + '%';
+document.getElementById('ach-percent').innerText = percent.toFixed(4) + '%';
+if (score >= targetAch) {
+document.getElementById('ach-status').innerText = "🏆 ДОСТИЖЕНИЕ РАЗБЛОКИРОВАНО!";
+document.getElementById('ach-status').style.color = "var(--success)";
+}
+}
+/* ЛОГИКА ЗМЕЙКИ */
+const sCanvas = document.getElementById('snakeCanvas'); const sCtx = sCanvas.getContext('2d');
+let snake, snakeDir, food, snakeScore, gridSquare = 20;
+document.addEventListener('keydown', e => {
+if (e.key === 'ArrowUp' && snakeDir !== 'DOWN') snakeDir = 'UP';
+if (e.key === 'ArrowDown' && snakeDir !== 'UP') snakeDir = 'DOWN';
+if (e.key === 'ArrowLeft' && snakeDir !== 'RIGHT') snakeDir = 'LEFT';
+if (e.key === 'ArrowRight' && snakeDir !== 'LEFT') snakeDir = 'RIGHT';
+});
+function startSnake() {
+clearInterval(activeSnakeInterval);
+snake = [{x: 160, y: 160}, {x: 140, y: 160}]; snakeDir = 'RIGHT'; snakeScore = 0;
+document.getElementById('snake-score').innerText = snakeScore;
+generateFood(); activeSnakeInterval = setInterval(updateSnake, 100);
+}
+function generateFood() {
+food = {
+x: Math.floor(Math.random() * (sCanvas.width / gridSquare)) * gridSquare,
+y: Math.floor(Math.random() * (sCanvas.height / gridSquare)) * gridSquare
+};
+}
+function updateSnake() {
+let head = {x: snake[0].x, y: snake[0].y};
+if (snakeDir === 'UP') head.y -= gridSquare;
+if (snakeDir === 'DOWN') head.y += gridSquare;
+if (snakeDir === 'LEFT') head.x -= gridSquare;
+if (snakeDir === 'RIGHT') head.x += gridSquare;
+if (head.x < 0 || head.x >= sCanvas.width || head.y < 0 || head.y >= sCanvas.height || snake.some(seg => seg.x === head.x && seg.y === head.y)) {
+clearInterval(activeSnakeInterval); alert('Конец игры! Счет: ' + snakeScore); return;
+}
+snake.unshift(head);
+if (head.x === food.x && head.y === food.y) { snakeScore += 10; document.getElementById('snake-score').innerText = snakeScore; generateFood(); }
+else { snake.pop(); }
+sCtx.clearRect(0, 0, sCanvas.width, sCanvas.height);
+sCtx.fillStyle = '#ef4444'; sCtx.fillRect(food.x, food.y, gridSquare, gridSquare);
+sCtx.fillStyle = '#10b981'; snake.forEach(seg => sCtx.fillRect(seg.x, seg.y, gridSquare - 2, gridSquare - 2));
+}
+/* ЛОГИКА ПАКМАНА */
+const pCanvas = document.getElementById('pacmanCanvas'); const pCtx = pCanvas.getContext('2d');
+let pacman, ghost, dot, pScore;
+function startPacman() {
+clearInterval(activePacmanInterval);
+pacman = {x: 200, y: 200, size: 14, speed: 4}; ghost = {x: 40, y: 40, size: 14, speed: 2}; pScore = 0;
+document.getElementById('pacman-score').innerText = pScore; respawnDot();
+window.pKeys = window.pKeys || {};
+window.addEventListener('keydown', e => window.pKeys[e.key] = true);
+window.addEventListener('keyup', e => window.pKeys[e.key] = false);
+activePacmanInterval = setInterval(updatePacman, 1000 / 60);
+}
+function respawnDot() { dot = { x: Math.random() * (pCanvas.width - 40) + 20, y: Math.random() * (pCanvas.height - 40) + 20 }; }
+function updatePacman() {
+if (!window.pKeys) return;
+if (window.pKeys['ArrowUp']) pacman.y = Math.max(pacman.size, pacman.y - pacman.speed);
+if (window.pKeys['ArrowDown']) pacman.y = Math.min(pCanvas.height - pacman.size, pacman.y + pacman.speed);
+if (window.pKeys['ArrowLeft']) pacman.x = Math.max(pacman.size, pacman.x - pacman.speed);
+if (window.pKeys['ArrowRight']) pacman.x = Math.min(pCanvas.width - pacman.size, pacman.x + pacman.speed);
+if (ghost.x < pacman.x) ghost.x += ghost.speed; else ghost.x -= ghost.speed;
+if (ghost.y < pacman.y) ghost.y += ghost.speed; else ghost.y -= ghost.speed;
+if (Math.hypot(pacman.x - dot.x, pacman.y - dot.y) < pacman.size + 6) { pScore++; document.getElementById('pacman-score').innerText = pScore; respawnDot(); }
+if (Math.hypot(pacman.x - ghost.x, pacman.y - ghost.y) < pacman.size + ghost.size) { clearInterval(activePacmanInterval); alert('Призрак победил! Очки: ' + pScore); return; }
+pCtx.clearRect(0, 0, pCanvas.width, pCanvas.height);
+pCtx.fillStyle = '#ffffff'; pCtx.beginPath(); pCtx.arc(dot.x, dot.y, 6, 0, Math.PI * 2); pCtx.fill();
+pCtx.fillStyle = '#eab308'; pCtx.beginPath(); pCtx.arc(pacman.x, pacman.y, pacman.size, 0.2 * Math.PI, 1.8 * Math.PI); pCtx.lineTo(pacman.x, pacman.y); pCtx.fill();
+pCtx.fillStyle = '#ef4444'; pCtx.beginPath(); pCtx.arc(ghost.x, ghost.y, ghost.size, 0, Math.PI * 2); pCtx.fill();
+} <FollowUp>
