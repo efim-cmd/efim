@@ -214,9 +214,9 @@
             <span style="color: var(--accent-color)">◆</span> GitHub WebApp
         </div>
         <nav>
-            <button class="nav-btn active" onclick="switchTab('main-tab')">Главная</button>
-            <button class="nav-btn" onclick="switchTab('projects-tab')">Проекты</button>
-            <button class="nav-btn" onclick="switchTab('game-tab')">Мини-Игра</button>
+            <button class="nav-btn active" onclick="switchTab(this, 'main-tab')">Главная</button>
+            <button class="nav-btn" onclick="switchTab(this, 'projects-tab')">Проекты</button>
+            <button class="nav-btn" onclick="switchTab(this, 'game-tab')">Мини-Игра</button>
         </nav>
     </header>
 
@@ -229,11 +229,11 @@
             </div>
             <h2>Интерактивные элементы</h2>
             <div class="grid">
-                <div class="card" onclick="switchTab('projects-tab')">
+                <div class="card" onclick="document.querySelector('button[onclick*=\"projects-tab\"]').click()">
                     <h3>📁 Вкладка Проектов</h3>
                     <p>Кликни сюда, и скрипт сразу переключит тебя на страницу репозиториев.</p>
                 </div>
-                <div class="card" onclick="switchTab('game-tab')">
+                <div class="card" onclick="document.querySelector('button[onclick*=\"game-tab\"]').click()">
                     <h3>🎮 Настоящий кликер</h3>
                     <p>Внутри встроена игра. Можно кликать, копить очки и покупать улучшения.</p>
                 </div>
@@ -271,15 +271,15 @@
     </footer>
 
     <script>
-        function switchTab(tabId) {
+        function switchTab(clickedButton, tabId) {
+            // Скрываем все вкладки
             document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            // Убираем активный класс у всех кнопок
             document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-            document.getElementById(tabId).classList.add('active');
             
-            const buttons = document.querySelectorAll('.nav-btn');
-            if(tabId === 'main-tab') buttons[0].classList.add('active');
-            if(tabId === 'projects-tab') buttons[1].classList.add('active');
-            if(tabId === 'game-tab') buttons[2].classList.add('active');
+            // Показываем нужную вкладку и активируем кнопку
+            document.getElementById(tabId).classList.add('active');
+            clickedButton.classList.add('active');
         }
 
         let score = 0;
